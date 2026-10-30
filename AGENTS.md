@@ -16,7 +16,7 @@ Chatbot konsultasi hukum (fokus hukum Indonesia). Backend Node.js + Express (ES 
 ## Struktur
 
 - `index.js` — seluruh backend: konfigurasi, `SYSTEM_INSTRUCTION`, konversi riwayat (`toContents`), endpoint `POST /api/chat`.
-- `public/index.html`, `public/style.css`, `public/script.js` — starter code UI chat vanilla JS dari materi Hacktiv8, tanpa build step.
+- `public/index.html`, `public/style.css`, `public/script.js` — UI chat bergaya gemini.google.com (vanilla JS, tanpa build step, mendukung light/dark mode). Balasan bot dirender sebagai Markdown via `marked` + `DOMPurify` dari CDN jsDelivr; jangan render HTML dari Gemini tanpa sanitasi.
 
 ## Konvensi
 
