@@ -1,0 +1,33 @@
+<!doctype html>
+<html lang="id">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Asisten Konsultasi Hukum</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <header>
+    <h1>⚖️ Asisten Konsultasi Hukum</h1>
+    <p>Informasi hukum umum, bukan pengganti nasihat advokat.</p>
+  </header>
+
+  <main id="chat" aria-live="polite">
+    <div class="msg model">Halo! Ceritakan persoalan hukum Anda. Anda juga bisa melampirkan dokumen (PDF), gambar, atau audio.</div>
+  </main>
+
+  <form id="form">
+    <div id="attachments"></div>
+    <div class="row">
+      <label class="attach" title="Lampirkan file">
+        📎
+        <input id="file" type="file" multiple accept="image/*,audio/*,application/pdf,text/plain" hidden />
+      </label>
+      <textarea id="input" rows="1" placeholder="Tulis pertanyaan hukum Anda..."></textarea>
+      <button type="submit">Kirim</button>
+    </div>
+  </form>
+
+  <script src="app.js"></script>
+</body>
+</html>
