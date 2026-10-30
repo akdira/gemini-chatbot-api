@@ -37,47 +37,45 @@ Buka http://localhost:3000 untuk memakai antarmuka chat.
 
 ### `POST /api/chat`
 
-Mengirim seluruh riwayat percakapan; server meneruskannya ke Gemini dengan system instruction konsultan hukum.
+Kirim seluruh riwayat percakapan di setiap request agar chatbot (Lexa) mengingat konteks. Balasan `model` diambil dari field `result` response sebelumnya.
 
 Request body:
 
 ```json
 {
-  "messages": [
-    { "role": "user", "text": "Saya di-PHK tanpa pesangon, apa hak saya?" },
-    { "role": "model", "text": "..." },
-    {
-      "role": "user",
-      "text": "Tolong cek kontrak kerja saya ini",
-      "files": [{ "mimeType": "application/pdf", "data": "<base64>" }]
-    }
+  "conversation": [
+    { "role": "user", "text": "Selamat malam" },
+    { "role": "model", "text": "Selamat malam! 👋 Saya Lexa, ..." },
+    { "role": "user", "text": "Saya di-PHK tanpa pesangon, apa hak saya?" }
   ]
 }
 ```
 
 - `role`: `user` atau `model`
-- `text`: isi pesan (opsional jika ada `files`)
-- `files`: lampiran opsional; `data` berupa base64 tanpa prefix `data:`. Total body maksimal 20 MB.
+- `text`: isi pesan
 
-Response:
+Response sukses (200):
 
 ```json
-{ "reply": "Berdasarkan UU Ketenagakerjaan ..." }
+{ "result": "Berdasarkan UU Ketenagakerjaan ..." }
 ```
 
-Contoh dengan curl:
+Response error (500), misalnya jika `conversation` bukan array:
 
-```bash
-curl -X POST http://localhost:3000/api/chat \
-  -H "Content-Type: application/json" \
-  -d '{"messages":[{"role":"user","text":"Apa itu somasi?"}]}'
+```json
+{ "error": "Message must be an array" }
 ```
+
+### Postman
+
+Import [`postman/law-consulting.postman_collection.json`](postman/law-consulting.postman_collection.json) ke Postman. Variabel `base_url` default-nya `http://localhost:3000`. Koleksi berisi request pesan pertama, percakapan multi-turn, pertanyaan di luar topik hukum, dan validasi error, masing-masing dengan test otomatis.
 
 ## Struktur proyek
 
 ```
 .
 ├── index.js          # Server Express + integrasi Gemini
+├── postman/          # Postman collection
 ├── public/           # Frontend chat (HTML/CSS/JS statis)
 ├── .env.example      # Template variabel lingkungan
 ├── AGENTS.md         # Panduan untuk AI coding agent

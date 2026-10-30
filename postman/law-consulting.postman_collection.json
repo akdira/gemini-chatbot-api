@@ -1,0 +1,202 @@
+{
+  "info": {
+    "name": "Law Consulting Chatbot API",
+    "description": "Koleksi request untuk endpoint `POST /api/chat` chatbot konsultasi hukum (Lexa).\n\nBody berisi `conversation`: array pesan `{ role, text }` dengan `role` = `user` atau `model`. Kirim seluruh riwayat percakapan setiap request agar Lexa mengingat konteks.",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "variable": [
+    {
+      "key": "base_url",
+      "value": "http://localhost:3000"
+    }
+  ],
+  "item": [
+    {
+      "name": "Chat - pesan pertama",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test('Status code 200', () => pm.response.to.have.status(200));",
+              "pm.test('Ada field result berupa string', () => {",
+              "  const json = pm.response.json();",
+              "  pm.expect(json.result).to.be.a('string').and.not.empty;",
+              "});"
+            ]
+          }
+        }
+      ],
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"conversation\": [\n    {\n      \"role\": \"user\",\n      \"text\": \"Selamat malam\"\n    }\n  ]\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "{{base_url}}/api/chat",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "api",
+            "chat"
+          ]
+        },
+        "description": "Satu pesan dari user untuk memulai konsultasi."
+      }
+    },
+    {
+      "name": "Chat - lanjutan percakapan (multi-turn)",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test('Status code 200', () => pm.response.to.have.status(200));",
+              "pm.test('Ada field result berupa string', () => {",
+              "  const json = pm.response.json();",
+              "  pm.expect(json.result).to.be.a('string').and.not.empty;",
+              "});"
+            ]
+          }
+        }
+      ],
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"conversation\": [\n    {\n      \"role\": \"user\",\n      \"text\": \"Selamat malam\"\n    },\n    {\n      \"role\": \"model\",\n      \"text\": \"Selamat malam! 👋 Saya Lexa, konsultan hukum Anda. Boleh ceritakan kronologi singkat masalahnya, kapan terjadi, dan siapa saja pihak yang terlibat?\"\n    },\n    {\n      \"role\": \"user\",\n      \"text\": \"Saya di-PHK minggu lalu oleh perusahaan tempat saya bekerja 3 tahun, tanpa pesangon dan tanpa surat peringatan. Apa hak saya?\"\n    }\n  ]\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "{{base_url}}/api/chat",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "api",
+            "chat"
+          ]
+        },
+        "description": "Riwayat percakapan: pesan user, balasan model sebelumnya, lalu pesan user berikutnya. Balasan `model` diambil dari field `result` response sebelumnya."
+      }
+    },
+    {
+      "name": "Chat - di luar topik hukum",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test('Status code 200', () => pm.response.to.have.status(200));",
+              "pm.test('Ada field result berupa string', () => {",
+              "  const json = pm.response.json();",
+              "  pm.expect(json.result).to.be.a('string').and.not.empty;",
+              "});"
+            ]
+          }
+        }
+      ],
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"conversation\": [\n    {\n      \"role\": \"user\",\n      \"text\": \"Rekomendasi tempat liburan di Bali dong\"\n    }\n  ]\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "{{base_url}}/api/chat",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "api",
+            "chat"
+          ]
+        },
+        "description": "Lexa seharusnya menolak dengan sopan pertanyaan di luar topik hukum."
+      }
+    },
+    {
+      "name": "Chat - error conversation bukan array",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test('Status code 500', () => pm.response.to.have.status(500));",
+              "pm.test('Ada pesan error', () => {",
+              "  pm.expect(pm.response.json().error).to.eql('Message must be an array');",
+              "});"
+            ]
+          }
+        }
+      ],
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"conversation\": \"Halo\"\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "{{base_url}}/api/chat",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "api",
+            "chat"
+          ]
+        },
+        "description": "Validasi: `conversation` bukan array akan mengembalikan 500 dengan pesan error."
+      }
+    }
+  ]
+}

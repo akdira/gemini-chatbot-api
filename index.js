@@ -20,7 +20,7 @@ app.post('/api/chat', async (req, res) => {
   const { conversation } = req.body;
 
   try {
-    if (!Array.isArray(conversation)) throw new Error('Message must be an array!');
+    if (!Array.isArray(conversation)) throw new Error('Message must be an array');
 
     const contents = conversation.map(({ role, text }) => ({
       role,
