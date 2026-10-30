@@ -15,7 +15,7 @@ form.addEventListener('submit', async function (e) {
   conversation.push({ role: 'user', text: userMessage });
   input.value = '';
 
-  const thinkingMsg = appendMessage('bot', 'Gemini is thinking...');
+  const thinkingMsg = appendMessage('bot', 'Thinking...');
 
   try {
     const response = await fetch('/api/chat', {
@@ -26,8 +26,13 @@ form.addEventListener('submit', async function (e) {
     const data = await response.json();
     if (!response.ok) throw new Error(data.error || 'Failed to get response from server.');
 
-    thinkingMsg.textContent = data.result || 'Sorry, no response received.';
-    conversation.push({ role: 'model', text: data.result });
+    if (data.result) {
+      thinkingMsg.textContent = data.result;
+      conversation.push({ role: 'model', text: data.result });
+    } else {
+      thinkingMsg.textContent = 'Sorry, no response received.';
+      conversation.pop();
+    }
   } catch (error) {
     console.error(error);
     thinkingMsg.textContent = 'Failed to get response from server.';
