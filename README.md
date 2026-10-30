@@ -25,6 +25,17 @@ npm start              # atau: npm run dev (auto-reload)
 
 Buka http://localhost:3000 untuk memakai antarmuka chat.
 
+### Alternatif: Docker (localhost)
+
+Butuh Docker Desktop. File `.env` di root tetap dipakai.
+
+```bash
+cd infra/localhost
+docker compose up -d     # atau klik start.bat
+```
+
+Buka http://localhost:13000. Kode di-mount ke container dan auto-reload saat diubah. Lihat log dengan `check-error-logs.bat`, hentikan dengan `docker compose down` atau `stop.bat`.
+
 ### Variabel lingkungan
 
 | Nama | Wajib | Default | Keterangan |
@@ -75,6 +86,7 @@ Import [`postman/law-consulting.postman_collection.json`](postman/law-consulting
 ```
 .
 ├── index.js          # Server Express + integrasi Gemini
+├── infra/localhost/  # Docker Compose untuk menjalankan di localhost
 ├── postman/          # Postman collection
 ├── public/           # Frontend chat (HTML/CSS/JS statis)
 ├── .env.example      # Template variabel lingkungan

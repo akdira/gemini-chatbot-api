@@ -11,6 +11,7 @@ Chatbot konsultasi hukum (fokus hukum Indonesia). Backend Node.js + Express (ES 
 - Install: `npm install`
 - Jalankan: `npm start`
 - Dev (auto-reload): `npm run dev`
+- Docker: `cd infra/localhost && docker compose up -d` (port 13000, container `gemini-chatbot-api-localhost-app`)
 - Belum ada test suite; verifikasi manual via UI di http://localhost:3000 atau `curl` ke `POST /api/chat`.
 
 ## Struktur

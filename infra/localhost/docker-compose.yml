@@ -1,0 +1,33 @@
+name: gemini-chatbot-api-localhost
+
+services:
+  app:
+    image: node:24-alpine
+    container_name: gemini-chatbot-api-localhost-app
+    restart: unless-stopped
+    working_dir: /app
+    # Install dependencies inside the container (Linux binaries), then run with auto-reload
+    command: sh -c "npm ci && node --watch index.js"
+    ports:
+      - "13000:3000"
+    volumes:
+      - ../..:/app
+      # Keep container node_modules separate from the host's Windows node_modules
+      - node-modules:/app/node_modules
+    env_file:
+      - ../../.env
+    environment:
+      PORT: 3000
+    networks:
+      - gemini-chatbot-api-localhost-internal
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "10m"
+        max-file: "10"
+
+volumes:
+  node-modules:
+
+networks:
+  gemini-chatbot-api-localhost-internal:
