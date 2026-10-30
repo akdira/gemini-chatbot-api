@@ -1,33 +1,20 @@
-<!doctype html>
-<html lang="id">
+<!DOCTYPE html>
+<html lang="en">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Asisten Konsultasi Hukum</title>
-  <link rel="stylesheet" href="style.css" />
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Gemini AI Chatbot</title>
+  <link rel="stylesheet" href="style.css"/>
 </head>
 <body>
-  <header>
-    <h1>⚖️ Asisten Konsultasi Hukum</h1>
-    <p>Informasi hukum umum, bukan pengganti nasihat advokat.</p>
-  </header>
-
-  <main id="chat" aria-live="polite">
-    <div class="msg model">Halo! Ceritakan persoalan hukum Anda. Anda juga bisa melampirkan dokumen (PDF), gambar, atau audio.</div>
-  </main>
-
-  <form id="form">
-    <div id="attachments"></div>
-    <div class="row">
-      <label class="attach" title="Lampirkan file">
-        📎
-        <input id="file" type="file" multiple accept="image/*,audio/*,application/pdf,text/plain" hidden />
-      </label>
-      <textarea id="input" rows="1" placeholder="Tulis pertanyaan hukum Anda..."></textarea>
-      <button type="submit">Kirim</button>
-    </div>
-  </form>
-
-  <script src="app.js"></script>
+  <div class="container">
+    <h1>Gemini AI Chatbot</h1>
+    <div id="chat-box" class="chat-box"></div>
+    <form id="chat-form">
+      <input type="text" id="user-input" placeholder="Type your message..." autocomplete="off" required />
+      <button type="submit">Send</button>
+    </form>
+  </div>
+  <script src="script.js"></script>
 </body>
 </html>
