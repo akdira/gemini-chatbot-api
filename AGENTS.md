@@ -31,3 +31,7 @@ Chatbot konsultasi hukum (fokus hukum Indonesia). Backend Node.js + Express (ES 
 
 - Jangan pernah commit `.env` atau API key. Tambahkan variabel baru ke `.env.example` dan tabel di `README.md`.
 - Jangan log isi percakapan atau lampiran pengguna — bisa berisi data pribadi/sensitif.
+
+## Git
+
+- Jangan menambahkan trailer `Co-Authored-By` (termasuk `Co-Authored-By: Claude ...`) atau atribusi AI lain di pesan commit maupun deskripsi PR.
